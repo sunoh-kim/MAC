@@ -34,7 +34,7 @@ We recommend setting up a virtual environment. Below are the core dependencies r
 
 Please follow [CoOp](https://github.com/KaiyangZhou/CoOp) and manually download the required datasets. 
 
-Place the downloaded datasets into the `./data` directory and make sure to check/update the path of the json file in `fewshot_datasets.py`.
+Place the downloaded datasets into the `./data` directory and make sure to check/update the path of the json file in `data/fewshot_datasets.py`.
 
 ## 🚀 How to Run
 
