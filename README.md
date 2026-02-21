@@ -71,3 +71,7 @@ If you find our work helpful for your research, please consider citing our paper
   year={2026}
 }
 ```
+
+## 🙏 Acknowledgements
+
+This repository is inspired by and built upon the codebase of [TTC (Test-Time Counterattacks)](https://github.com/Sxing2/CLIP-Test-time-Counterattacks). We express our sincere gratitude to the authors for their great contribution.
