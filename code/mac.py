@@ -235,7 +235,7 @@ def validate(args, val_dataset_name, model, model_text, model_image,
     for cnt in range(dataset_num):
         dataset_start_time = time.time()
         
-        val_dataset, val_loader = load_val_dataset(args, val_dataset_name[cnt], args.root)
+        val_dataset, val_loader = load_val_dataset(args, val_dataset_name[cnt])
         dataset_name = val_dataset_name[cnt]
         texts = get_text_prompts_val([val_dataset], [dataset_name])[0]
 
