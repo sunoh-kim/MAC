@@ -181,8 +181,8 @@ def get_eval_files(dataset_name):
     eval_select = {ssid:refined_data[ssid]['eval_files'] for ssid in refined_data}
     return eval_select
 
-def load_val_dataset(args, val_dataset_name):
-    val_dataset = build_dataset(val_dataset_name, preprocess224, "./data", mode='test')
+def load_val_dataset(args, val_dataset_name, root):
+    val_dataset = build_dataset(val_dataset_name, preprocess224, root, mode='test')
     
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, pin_memory=True, 
                num_workers=args.num_workers, shuffle=False,)
