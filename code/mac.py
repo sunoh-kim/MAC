@@ -235,7 +235,7 @@ def validate(args, val_dataset_name, model, model_text, model_image,
     for cnt in range(dataset_num):
         dataset_start_time = time.time()
         
-        val_dataset, val_loader = load_val_dataset(args, val_dataset_name[cnt])
+        val_dataset, val_loader = load_val_dataset(args, val_dataset_name[cnt], args.root)
         dataset_name = val_dataset_name[cnt]
         texts = get_text_prompts_val([val_dataset], [dataset_name])[0]
 
@@ -411,8 +411,8 @@ def main():
     args.mac_eps = args.mac_eps / 255.
     args.mac_stepsize = args.mac_eps / 4.
 
-    imagenet_root = './data/ImageNet'
-    args.imagenet_root = imagenet_root
+    # imagenet_root = '../data/ImageNet'
+    # args.imagenet_root = imagenet_root
 
     # load model
     model, _ = clip.load(args.arch, device, jit=False, prompt_len=0)  #'ViT-B/32'
