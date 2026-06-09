@@ -1,6 +1,6 @@
 # MAC: Multi-View Guided Adaptive Counterattacks for Test-Time Adversarial Robustness (CVPR 2026)
 
-Official PyTorch implementation of the CVPR 2026 paper: **"When CLIP Sees More, It Fights Back Harder: Multi-View Guided Adaptive Counterattacks for Test-Time Adversarial Robustness"**.
+Official PyTorch implementation of the CVPR 2026 paper: **"[When CLIP Sees More, It Fights Back Harder: Multi-View Guided Adaptive Counterattacks for Test-Time Adversarial Robustness](https://arxiv.org/abs/2606.06938)"**.
 
 ## 📌 Overview
 
