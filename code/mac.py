@@ -116,11 +116,17 @@ def build_aug(
 def build_views(images, num_views, aug):
     if num_views <= 1 or aug is None:
         return images
+
     views = [images]
+
     with torch.no_grad():
         for _ in range(num_views - 1):
-            imgs_aug = torch.stack([aug(img) for img in images], dim=0)
+            imgs_aug = torch.stack(
+                [aug(img) for img in images],
+                dim=0
+            )
             views.append(imgs_aug)
+
     return torch.cat(views, dim=0)
 
 def aggregate_views(logits, num_views):
@@ -174,12 +180,16 @@ def multiview_guided_counterattack(model, X, prompter, add_prompter, alpha, atta
         aug = build_aug() 
         
     with torch.no_grad():
-        X_cpu = X.detach().cpu()
-        X_aug_list = [aug(img) for img in X_cpu]
-        X_aug = torch.stack(X_aug_list, dim=0).to(X.device)
+        X_base = X.detach()
+
+        X_aug = torch.stack(
+            [aug(img) for img in X_base],
+            dim=0
+        )
 
         X_aug_reps = model.module.encode_image(
-            prompter(clip_img_preprocessing(X_aug)), prompt_token
+            prompter(clip_img_preprocessing(X_aug)),
+            prompt_token
         )
         corpt_degree = (X_aug_reps - X_ori_reps).norm(dim=-1) / (X_ori_reps.norm(dim=-1) + 1e-10)
 
@@ -266,13 +276,13 @@ def validate(args, val_dataset_name, model, model_text, model_image,
             
             with autocast():
 
+                images = images.to(device, non_blocking=True)
+                target = target.to(device, non_blocking=True)
+
                 if V > 1:
-                    images_views = build_views(images, V, aug).to(device)
-                    images = images.to(device)
+                    images_views = build_views(images, V, aug)
                 else:
-                    images_views = images.to(device)
-                    images = images.to(device)
-                target = target.to(device)
+                    images_views = images
 
                 # MAC on clean images
                 mac_delta_clean = multiview_guided_counterattack(
@@ -321,9 +331,9 @@ def validate(args, val_dataset_name, model, model_text, model_image,
                     attacked_images = images + delta_prompt
                     
                 if V > 1:
-                    attacked_images_views = build_views(attacked_images, V, aug).to(device)
+                    attacked_images_views = build_views(attacked_images, V, aug)
                 else:
-                    attacked_images_views = attacked_images.to(device)
+                    attacked_images_views = attacked_images
                     
                 mac_delta_adv = multiview_guided_counterattack(
                     model, attacked_images_views.data, prompter, add_prompter,
