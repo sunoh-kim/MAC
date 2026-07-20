@@ -6,6 +6,13 @@ SEED=1
 ARCH="ViT-B/32"
 TEST_ATTACK_TYPE="pgd"
 
+DATA_ROOT="${DATA_ROOT:-/data/vlm_datasets}"
+
+if [[ ! -d "$DATA_ROOT" ]]; then
+    echo "Dataset directory not found: $DATA_ROOT" >&2
+    exit 1
+fi
+
 if [[ "${ARCH}" == "RN50" ]]; then
   TEST_EPS=4
   TEST_NUMSTEPS=10
@@ -41,6 +48,7 @@ OUTDIR="${ROOT_OUTDIR}/${ARCH_SAFE}"
 mkdir -p "${OUTDIR}"
 
 ${PYTHON} "${SCRIPT}" \
+  --root "${DATA_ROOT}" \
   --batch_size ${BATCH_SIZE} \
   --test_attack_type "${TEST_ATTACK_TYPE}" \
   --test_eps ${TEST_EPS} \
